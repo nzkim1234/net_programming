@@ -1,13 +1,10 @@
-from socket import *
+import socket
 
-s = socket(AF_INET, SOCK_STREAM)
-s.connect(('localhost', 9001))
-
-while True:
-	msg = input('What should I calculate (q to quit): ')
-	if msg == 'q':
-		break
-	s.send(msg.encode())
-	print('Calculate result:', s.recv(1024).decode())
-
-s.close()
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+addr = ('localhost', 9001)
+sock.connect(addr)
+msg = sock.recv(1024)
+print(msg.decode())
+sock.send(b'BoYoon Kim')
+print(int.from_bytes(sock.recv(1024), 'big'))
+sock.close()

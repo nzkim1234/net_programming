@@ -1,37 +1,14 @@
-from socket import *
+import socket
 
-port = 9001
-BUFSIZE = 1024
-
-sock = socket(AF_INET, SOCK_STREAM)
-sock.bind(('', port))
-sock.listen(1)
-conn, (remotehost, remoteport) = sock.accept()
-print('connected by', remotehost, remoteport)
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('', 9001))
+s.listen(2)
 
 while True:
-	try:
-		data = conn.recv(BUFSIZE)
-	except:
-		break
-	else:
-		if not data:
-			break
-		calc = data.decode().split()
-		print(calc)
-		if calc[1] == '+':
-			result = int(calc[0]) + int(calc[2])
-		elif calc[1] == '-':
-			result = int(calc[0]) - int(calc[2])
-		elif calc[1] == '*':
-			result = int(calc[0]) * int(calc[2])
-		else:
-			result = round(int(calc[0]) / int(calc[2]), 1)
-		print(result)
-	try:	
-		conn.send(str(result).encode())
-	except:
-		break
-conn.close()
-
+	client, addr = s.accept()
+	print('connection from ', addr)
+	client.send(b'Hello ' + addr[0].encode())
+	print(client.recv(1024).decode())
+	client.send((20181509).to_bytes(8, 'big'))
+	client.close()
 
