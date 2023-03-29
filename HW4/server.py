@@ -17,16 +17,23 @@ while True:
 	else:
 		if not data:
 			break
-		calc = data.decode().split()
+		calc = data.decode()
 		print(calc)
-		if calc[1] == '+':
-			result = int(calc[0]) + int(calc[2])
-		elif calc[1] == '-':
-			result = int(calc[0]) - int(calc[2])
-		elif calc[1] == '*':
-			result = int(calc[0]) * int(calc[2])
+		if '+' in calc:
+			calc = calc.split('+')
+			result = int(calc[0]) + int(calc[1])
+
+		elif '-' in calc:
+			calc = calc.split('-')
+			result = int(calc[0]) - int(calc[1])
+
+		elif '*' in calc:
+			calc = calc.split('*')
+			result = int(calc[0]) * int(calc[1])
+
 		else:
-			result = round(int(calc[0]) / int(calc[2]), 1)
+			calc = calc.split('/')
+			result = round(int(calc[0]) / int(calc[1]), 1)
 		print(result)
 	try:	
 		conn.send(str(result).encode())
