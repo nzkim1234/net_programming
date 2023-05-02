@@ -17,12 +17,12 @@ while True:
 
     if msg[0] == 'send':
         s.send(msg[0].encode())
-        s.recv(BUFSIZE).decode()
         s.send(msg[1].encode())
         print(msg)
-        s.recv(BUFSIZE).decode()
         message = ' '.join(msg[2::])
         s.send(message.encode())
+        print(s.recv(BUFSIZE).decode())
+
     else:
         s.send(msg[0].encode())
         s.recv(BUFSIZE).decode()

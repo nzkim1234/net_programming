@@ -1,7 +1,7 @@
 from socket import *
 import sys
 
-port = 9001
+port = 9999
 BUFSIZE = 1024
 
 sock = socket(AF_INET, SOCK_STREAM)
@@ -16,14 +16,12 @@ while True:
     data = conn.recv(BUFSIZE)
     first_data = data.decode()
     print(first_data)
-    conn.send('recv first data'.encode())
 
     if first_data == 'quit':
         conn.close()
 
     elif first_data == 'send':
         data = conn.recv(BUFSIZE)
-        conn.send('recv send'.encode())
         mboxID = data.decode()
         data = conn.recv(BUFSIZE)
         message = data.decode()
@@ -33,6 +31,7 @@ while True:
             mbox[mboxID] = []
             mbox[mboxID].append(message)
         print(mbox)
+        conn.send(b'OK')
 
     else:
         data = conn.recv(BUFSIZE)
